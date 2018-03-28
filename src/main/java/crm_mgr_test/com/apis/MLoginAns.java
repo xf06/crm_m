@@ -2,14 +2,10 @@ package crm_mgr_test.com.apis;
 
 import java.util.UUID;
 
-
+import crm_mgr_test.com.apis.ComStatus.LoginStatus;
 
 public class MLoginAns {
 
-	public static enum LoginStatus {
-		SUCCESS, PASSWD_USER_NO_MATCH, ILLEGUEL_CHAR, USER_NOT_FOUND, UNKNOWN
-	}
-	
 	public MLoginAns(UUID requestid) {
 		this.messageid = (short) 0x8002;
 		this.requestid = requestid;
@@ -20,8 +16,8 @@ public class MLoginAns {
 	public final UUID requestid() {
 		return this.requestid;
 	}
-	// sessionid
 
+	// sessionid
 	public final short messageid() {
 		return this.messageid;
 	}
@@ -68,8 +64,11 @@ public class MLoginAns {
 	private UUID requestid;
 	// sessionid
 	private final short messageid;
+
 	private long managerid;
+
 	private LoginStatus loginst;
+
 	private String comment;
 
 }

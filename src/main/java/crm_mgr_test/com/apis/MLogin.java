@@ -6,9 +6,7 @@ import java.util.UUID;
 
 public class MLogin {
 
-	public MLogin(){
-		
-	}
+	public MLogin(){}
 	
 	public MLogin(UUID requestid) {
 //		this.messageid = (short) 0x8001;
@@ -50,6 +48,13 @@ public class MLogin {
 		this.managerid = managerid;
 		return this;
 	}
+	
+	/*
+	public MLogin managerid(final String managerid) {
+		this.managerid = managerid.hashCode();
+		return this;
+	}
+	*/
 
 	public final MLogin passwords(final char[] passwords) {
 		this.passwords = passwords;
