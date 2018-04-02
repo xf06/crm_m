@@ -2,6 +2,7 @@ package crm_mgr_test.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,6 +16,8 @@ import crm_mgr_test.com.apis.MLogin;
 import crm_mgr_test.com.apis.MLoginAns;
 import crm_mgr_test.com.apis.MResetPw;
 import crm_mgr_test.com.apis.MResetPwAns;
+import crm_mgr_test.dao.ManagerDao;
+import crm_mgr_test.domain.Manager;
 
 
 @RestController
@@ -81,9 +84,14 @@ public class ManagerController {
 		return ans;
 	}
 	
+	@Autowired
+    private ManagerDao managerDao;
 	
-	
-	
+	@RequestMapping("/getManager")
+	@ResponseBody
+	public Manager getManger() {
+		return managerDao.getManager();
+	}
 	
 }
 
