@@ -14,5 +14,10 @@ public interface ManagerDao {
 	
 	//public String getEmail(@Param(value="email") String email);
 	
+	public String getUserFromUserPW(@Param(value="loginname") String loginname, @Param(value="password") String password);
 	
+	public String getEmailFromEmailPW(@Param(value="email") String email, @Param(value="password") String password);
+
+	public Integer getMidFromMidPW(@Param(value="managerid") int managerid, @Param(value="password") String password);
+
 }

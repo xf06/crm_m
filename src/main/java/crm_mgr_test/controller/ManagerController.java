@@ -26,24 +26,78 @@ import crm_mgr_test.domain.Manager;
 @RestController
 public class ManagerController {
 
+	// investigate this first
+	@Autowired
+    private ManagerDao managerDao;
+	
+	@RequestMapping("/getManager")
+	@ResponseBody
+	public Manager getManger() {
+		return managerDao.getManager();
+	}
+	
+	
 // POST method 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	@ResponseBody
-	public MLoginAns login(MLogin mlg, HttpServletRequest req) {
-		// process login staff here		
+	public MLoginAns login(MLogin mlg) {
+		
+		
+		//System.out.println(managerDao.getMidFromMidPW(2, "1234"));
+		
+		// check if input are legal
+		ComStatus.LoginStatus st = mlg.reviewData();
+		
+		// construct ans message
 		MLoginAns ans = new MLoginAns(mlg.getRequestid());
 		
-		System.out.println("messageid:" + req.getParameter("messageid"));
+		//#define debug
+		ans.setEmail(mlg.getEmail());
+		ans.setLoginname(mlg.getLoginname());
+		ans.setManagerid(mlg.getManagerid());
+		//#####
 		
-		System.out.println(req.getParameter("passwords"));
+		if(st!=ComStatus.LoginStatus.SUCCESS) {
+			ans.setStatus(st);
+			return ans;
+		}
 		
 		// code verification check
 		
-		// database username and passwd check
+		// database email and passwd check
+		if((mlg.getEmail()!=null)&&(!mlg.getEmail().equals(""))) {
+			
+			if(managerDao.getEmailFromEmailPW(mlg.getEmail(), mlg.getPassword())!=null)
+				ans.setStatus(ComStatus.LoginStatus.SUCCESS);
+			else
+				ans.setStatus(ComStatus.LoginStatus.PASSWD_USER_NO_MATCH);
+			
+			return ans;
+		}
 		
-		ans.setLoginst(ComStatus.LoginStatus.SUCCESS);
-		//java class convert to json
-		return ans;
+		// database loginname and passwd check
+		if((mlg.getLoginname()!=null)&&(!mlg.getLoginname().equals(""))) {
+			if(managerDao.getUserFromUserPW(mlg.getLoginname(),mlg.getPassword())!=null)
+				ans.setStatus(ComStatus.LoginStatus.SUCCESS);
+			else 
+				ans.setStatus(ComStatus.LoginStatus.PASSWD_USER_NO_MATCH);
+			
+			return ans;
+		}
+		
+		// database managerid and passwd check
+		if(mlg.getManagerid()!=0) {
+			if(managerDao.getMidFromMidPW(mlg.getManagerid(), mlg.getPassword())!=null)
+				ans.setStatus(ComStatus.LoginStatus.SUCCESS);
+			else 
+				ans.setStatus(ComStatus.LoginStatus.PASSWD_USER_NO_MATCH);
+			
+			return ans;
+		}
+		
+		ans.setStatus(ComStatus.LoginStatus.UNKNOWN);
+	
+		return ans;//java class convert to json
 	}
 
 	@RequestMapping("/forgot")
@@ -88,7 +142,7 @@ public class ManagerController {
 		return ans;
 	}
 	
-	
+	/*
 	// investigate this first
 	@Autowired
     private ManagerDao managerDao;
@@ -98,7 +152,7 @@ public class ManagerController {
 	public Manager getManger() {
 		return managerDao.getManager();
 	}
-	
+	*/
 }
 
   

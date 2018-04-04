@@ -16,10 +16,9 @@ public class MLoginAns {
 	
 	private String email;
 	
-	private LoginStatus loginst;
+	private LoginStatus status;
 
 	private String comment;
-	
 	
 	public MLoginAns() {
 		this.messageid = "8002";
@@ -70,12 +69,12 @@ public class MLoginAns {
 		this.email = email;
 	}
 
-	public LoginStatus getLoginst() {
-		return loginst;
+	public LoginStatus getStatus() {
+		return status;
 	}
 
-	public void setLoginst(LoginStatus loginst) {
-		this.loginst = loginst;
+	public void setStatus(LoginStatus status) {
+		this.status = status;
 	}
 
 	public String getComment() {
