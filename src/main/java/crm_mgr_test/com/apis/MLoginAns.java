@@ -6,11 +6,88 @@ import crm_mgr_test.com.apis.ComStatus.LoginStatus;
 
 public class MLoginAns {
 
+	private UUID requestid;
+
+	private String messageid;
+
+	private int managerid;
+	
+	private String loginname;
+	
+	private String email;
+	
+	private LoginStatus loginst;
+
+	private String comment;
+	
+	
+	public MLoginAns() {
+		this.messageid = "8002";
+	}
+	
 	public MLoginAns(UUID requestid) {
-		this.messageid = (short) 0x8002;
+		this.messageid = "8002";
 		this.requestid = requestid;
 	}
 
+	public UUID getRequestid() {
+		return requestid;
+	}
+
+	public void setRequestid(UUID requestid) {
+		this.requestid = requestid;
+	}
+
+	public String getMessageid() {
+		return messageid;
+	}
+
+	public void setMessageid(String messageid) {
+		this.messageid = messageid;
+	}
+
+	public int getManagerid() {
+		return managerid;
+	}
+
+	public void setManagerid(int managerid) {
+		this.managerid = managerid;
+	}
+
+	public String getLoginname() {
+		return loginname;
+	}
+
+	public void setLoginname(String loginname) {
+		this.loginname = loginname;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public LoginStatus getLoginst() {
+		return loginst;
+	}
+
+	public void setLoginst(LoginStatus loginst) {
+		this.loginst = loginst;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
+	
+	/*
 	// getters and setters
 	// getters
 	public final UUID requestid() {
@@ -61,14 +138,6 @@ public class MLoginAns {
 		return "success";
 	}
 
-	private UUID requestid;
-	// sessionid
-	private final short messageid;
-
-	private long managerid;
-
-	private LoginStatus loginst;
-
-	private String comment;
+*/
 
 }

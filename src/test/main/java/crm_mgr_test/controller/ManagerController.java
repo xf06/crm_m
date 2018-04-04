@@ -1,10 +1,7 @@
 package crm_mgr_test.controller;
 
-import java.util.UUID;
-
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,21 +16,21 @@ import crm_mgr_test.com.apis.MLogin;
 import crm_mgr_test.com.apis.MLoginAns;
 import crm_mgr_test.com.apis.MResetPw;
 import crm_mgr_test.com.apis.MResetPwAns;
-import crm_mgr_test.dao.ManagerDao;
-import crm_mgr_test.domain.Manager;
 
 
 @RestController
 public class ManagerController {
 
 // POST method 
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@RequestMapping(value="/", method = RequestMethod.POST)
 	@ResponseBody
 	public MLoginAns login(MLogin mlg, HttpServletRequest req) {
-		// process login staff here		
-		MLoginAns ans = new MLoginAns(mlg.getRequestid());
 		
-		System.out.println("messageid:" + req.getParameter("messageid"));
+		System.out.println(mlg.getRequestid().toString());
+		//System.out.println(.toHexString(mlg.getMessageid()));
+
+		// process login staff here		
+		MLoginAns ans = new MLoginAns(mlg.requestid());
 		
 		System.out.println(req.getParameter("passwords"));
 		
@@ -41,7 +38,7 @@ public class ManagerController {
 		
 		// database username and passwd check
 		
-		ans.setLoginst(ComStatus.LoginStatus.SUCCESS);
+		ans.loginst(ComStatus.LoginStatus.SUCCESS);
 		//java class convert to json
 		return ans;
 	}
@@ -89,15 +86,8 @@ public class ManagerController {
 	}
 	
 	
-	// investigate this first
-	@Autowired
-    private ManagerDao managerDao;
 	
-	@RequestMapping("/getManager")
-	@ResponseBody
-	public Manager getManger() {
-		return managerDao.getManager();
-	}
+	
 	
 }
 

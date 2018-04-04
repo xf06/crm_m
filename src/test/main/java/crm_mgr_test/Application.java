@@ -1,12 +1,10 @@
 package crm_mgr_test;
 
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan("crm_mgr_test.dao")
-public class Application{
+public class Application {
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -15,3 +13,4 @@ public class Application{
 	}
 
 }
+

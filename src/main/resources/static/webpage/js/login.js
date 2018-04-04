@@ -1,16 +1,18 @@
 function login(){
-	var username = $("#username").val();
-	var password = $("#password").val();
 	
-	var requestid = 123;
-	var managerid = 56165365653276367376;
-	var passwords = ['a','b','c'];
-	var verficationcode = ['c','d','e'];
+	//var username = $("#username").val();
+	//var password = $("#password").val();
+
+	var username = "derek";
+	var password = "helloworld";
+	var requestid = "7a329632-36f1-11e8-b467-0ed5f89f718b";
+	var messageid = "0x8001";
+	var verficationcode = "hellocode";
 	
 	
 	$.ajax({
-		url:"/",
-		data:{requestid:requestid,managerid:managerid,passwords:passwords,verficationcode:verficationcode},
+		url: "/login",
+		data:{messageid:messageid,requestid:requestid,username:username,password:password,verficationcode:verficationcode},
 		type: 'POST',
 		success:function(data){
 			console.log(data);
@@ -22,4 +24,3 @@ function login(){
         }
 	});
 }
-

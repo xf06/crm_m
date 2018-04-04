@@ -7,6 +7,7 @@ public class Manager {
 	private String password;
 	private String email;
 	private String privillege;
+	
 	public int getManagerid() {
 		return managerid;
 	}
