@@ -30,7 +30,13 @@ public class ComStatus {
 
 	// 0x8008 MForgotPwAns
 	public static enum ForgotPwStatus {
-		SUCCESS, MESSAGEID_MISS_MATCH, EMAIL_SENT, UNKNOWN
+		SUCCESS,
+		WRONG_MSGID,
+		REQID_ERROR,
+		VARCODE_LENGTH_ERR,
+		EMAIL_FORMAT_ERR,
+		VARCODE_FORMAT_ERR,
+		UNKNOWN
 	}
 
 	// 0x800A mResetPwAns

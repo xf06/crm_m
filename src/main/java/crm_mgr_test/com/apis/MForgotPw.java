@@ -3,56 +3,82 @@ package crm_mgr_test.com.apis;
 import java.util.UUID;
 
 import crm_mgr_test.com.apis.ComStatus.ForgotPwStatus;
+import crm_mgr_test.com.apis.ComStatus.LoginStatus;
 
-//	mForgotPw	0x8007	{requestid, sessionid,managerid,email}	HTTP
+//	mForgotPw	0x8007	{requestid, sessionid,managerid,email,verificationcode}	HTTP
 
 public class MForgotPw {
 	
+	private String	messageid;
+	private UUID 	requestid;
+	private String	email;
+	private String	verificationcode;
+	
 	public MForgotPw() {
-		this.messageid = (short)0x8007;
+		this.messageid = "8007";
 	}
 	
 	// Check if input legal
 	public ForgotPwStatus reviewdata(){
-		if(this.messageid!= 0x8007)
-			return ComStatus.ForgotPwStatus.MESSAGEID_MISS_MATCH;
+		// general checking
+		if(this.messageid == null)
+			return ForgotPwStatus.WRONG_MSGID;
+		if(!this.messageid.equals("8007"))
+			return ForgotPwStatus.WRONG_MSGID;
+		if(this.requestid == null)
+			return ForgotPwStatus.REQID_ERROR;
+		if(this.requestid.toString().length()!=36)			
+			return ForgotPwStatus.REQID_ERROR;
+		
+		// length checking	
+		if((this.email!=null)&&(this.email.length()>ComStatus.INPUT_EMAIL_LENGTH))
+			return ForgotPwStatus.EMAIL_FORMAT_ERR;			
+		if((this.verificationcode!=null)&&(this.verificationcode.length()>ComStatus.INPUT_NORMSG_LENGTH))
+			return ForgotPwStatus.VARCODE_LENGTH_ERR;
+		
+		// format checking
+		if(!ComStatus.emailFormatCheck(this.email))
+			return ForgotPwStatus.EMAIL_FORMAT_ERR;
+		if(!ComStatus.userFormatCheck(this.verificationcode))
+			return ForgotPwStatus.VARCODE_FORMAT_ERR;
 		
 		
-		return ComStatus.ForgotPwStatus.SUCCESS;
+		return ForgotPwStatus.SUCCESS;
 	}
 
 	// getters setters
-	// getters
-	public short messageid(){
-		return this.messageid;
-	}
 	
-	public UUID requestid(){
-		return this.requestid;
+	public String getMessageid() {
+		return messageid;
 	}
-	
-	public String email() {
-		return this.email;
+
+	public void setMessageid(String messageid) {
+		this.messageid = messageid;
 	}
-	
-	// setters
-	public MForgotPw messageid(Integer messageid) {
-		this.messageid = messageid.shortValue();
-		return this;
+
+	public UUID getRequestid() {
+		return requestid;
 	}
-	
-	public MForgotPw requestid(String requestid){
-		this.requestid = UUID.fromString(requestid);
-		return this;
+
+	public void setRequestid(UUID requestid) {
+		this.requestid = requestid;
 	}
-	
-	public MForgotPw email(String email) {
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
 		this.email = email;
-		return this;
 	}
-	
-	private short	messageid;
-	private UUID 	requestid;
-	private String	email;
+
+	public String getVerificationcode() {
+		return verificationcode;
+	}
+
+	public void setVerificationcode(String verificationcode) {
+		this.verificationcode = verificationcode;
+	}
+
 	
 }

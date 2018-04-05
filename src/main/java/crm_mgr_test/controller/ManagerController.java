@@ -36,14 +36,10 @@ public class ManagerController {
 		return managerDao.getManager();
 	}
 	
-	
-// POST method 
+	// POST method 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	@ResponseBody
 	public MLoginAns login(MLogin mlg) {
-		
-		
-		//System.out.println(managerDao.getMidFromMidPW(2, "1234"));
 		
 		// check if input are legal
 		ComStatus.LoginStatus st = mlg.reviewData();
@@ -103,32 +99,48 @@ public class ManagerController {
 	@RequestMapping("/forgot")
 	@ResponseBody
 	public MForgotPwAns forgotPasswords(MForgotPw fgpw, HttpServletRequest req) {		
-		// check if input legal
-		MForgotPwAns ans = new MForgotPwAns();
-		// contruct return message
-		ans.requestid(fgpw.requestid()).email(fgpw.email()).status(fgpw.reviewdata());
 		
-		// perform business logic
-		if(ans.status()!= ComStatus.ForgotPwStatus.SUCCESS) {
+		// check if input legal
+		ComStatus.ForgotPwStatus st = fgpw.reviewdata();
+
+		// contruct return message
+		MForgotPwAns ans = new MForgotPwAns(fgpw.getRequestid());
+		ans.setEmail(fgpw.getEmail());
+		
+		if(st!=ComStatus.ForgotPwStatus.SUCCESS) {
+			ans.setStatus(st);
 			return ans;
 		}
+		// check verification code
+		// implement verification code
 		
-		// request id		
-		// message id
+		// Business Logic
+		
+		// 1 step: provide a token with email in redis (email + token(UUID))
+		
+		// 2 step: trigger an email sent to target email include (email + token)
+		
+		// 3 step: if everything ok, return success
 		
 		return ans;
 	}
 	
 //	mResetPw	0x8009	{requestid, sessionid,managerid,passwords,repasswords}	HTTP
 //	mResetPwAns	0x800A	{requestid, sessionid,managerid,status,comment}	HTTP
-	@RequestMapping("/reset")
+	@RequestMapping("/resetpw")
 	@ResponseBody
 	public MResetPwAns resetPasswords(MResetPw rspw, HttpServletRequest req) {
+		
 		// check if input legal
-		MResetPwAns ans = new MResetPwAns();
+		ComStatus.ResetPwStatus st = rspw.reviewdata();
+				
+		// construct return message
+		MResetPwAns ans = new MResetPwAns(rspw.get);
 		
 		ans.requestid(rspw.requestid()).status(rspw.reviewdata());
+		
 		return ans;
+		
 	}
 	
 //	mChangePw	0x8011	{requestid, sessionid, managerid, oldpw, newpw, repw }	HTTP
