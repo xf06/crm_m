@@ -20,4 +20,11 @@ public interface ManagerDao {
 
 	public Integer getMidFromMidPW(@Param(value="managerid") int managerid, @Param(value="password") String password);
 
+	public Manager getManagerFromMID(@Param(value="managerid") int managerid);// no implementation yet
+	
+	public Manager getManagerFromEmail(@Param(value="email") String email);
+	
+	public Integer updatePassword(@Param(value="managerid") int managerid, @Param(value="password") String password);
+
+	
 }

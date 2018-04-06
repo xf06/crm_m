@@ -7,17 +7,11 @@ import crm_mgr_test.com.apis.ComStatus.LoginStatus;
 public class MLoginAns {
 
 	private UUID requestid;
-
 	private String messageid;
-
 	private int managerid;
-	
 	private String loginname;
-	
 	private String email;
-	
 	private LoginStatus status;
-
 	private String comment;
 	
 	public MLoginAns() {

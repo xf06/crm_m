@@ -96,7 +96,7 @@ public class ManagerController {
 		return ans;//java class convert to json
 	}
 
-	@RequestMapping("/forgot")
+	@RequestMapping(value = "/forgot", method = RequestMethod.POST)
 	@ResponseBody
 	public MForgotPwAns forgotPasswords(MForgotPw fgpw, HttpServletRequest req) {		
 		
@@ -111,23 +111,32 @@ public class ManagerController {
 			ans.setStatus(st);
 			return ans;
 		}
+		
 		// check verification code
+		
 		// implement verification code
 		
 		// Business Logic
 		
-		// 1 step: provide a token with email in redis (email + token(UUID))
+		// 0 step: get manager from managerid
+		Manager mgr = this.managerDao.getManagerFromEmail(fgpw.getEmail());
+		if(mgr==null) {
+			ans.setStatus(ComStatus.ForgotPwStatus.EMAIL_INVALID);
+			return ans;
+		}
+			
+		// 1 step: provide a token with email in redis (managerid + token(UUID))
+		UUID token = UUID.randomUUID();
+		int managerid = mgr.getManagerid();
 		
-		// 2 step: trigger an email sent to target email include (email + token)
+		// 2 step: trigger an email sent to target email include (managerid + token)
 		
 		// 3 step: if everything ok, return success
 		
 		return ans;
 	}
 	
-//	mResetPw	0x8009	{requestid, sessionid,managerid,passwords,repasswords}	HTTP
-//	mResetPwAns	0x800A	{requestid, sessionid,managerid,status,comment}	HTTP
-	@RequestMapping("/resetpw")
+	@RequestMapping(value = "/resetpw", method = RequestMethod.POST)
 	@ResponseBody
 	public MResetPwAns resetPasswords(MResetPw rspw, HttpServletRequest req) {
 		
@@ -135,36 +144,51 @@ public class ManagerController {
 		ComStatus.ResetPwStatus st = rspw.reviewdata();
 				
 		// construct return message
-		MResetPwAns ans = new MResetPwAns(rspw.get);
+		MResetPwAns ans = new MResetPwAns(rspw.getRequestid());
+		ans.setStatus(st);
 		
-		ans.requestid(rspw.requestid()).status(rspw.reviewdata());
+		if(st!=ComStatus.ResetPwStatus.SUCCESS) {
+			ans.setStatus(st);
+			return ans;
+		}
+		
+		// check if token match redis's token
+		
+		// reset user's passwords database value
+		if(managerDao.updatePassword(rspw.getManagerid(), rspw.getPassword())==0) {
+			ans.setStatus(ComStatus.ResetPwStatus.UPDATEPW_FAILED);
+			return ans;
+		}
 		
 		return ans;
-		
 	}
 	
 //	mChangePw	0x8011	{requestid, sessionid, managerid, oldpw, newpw, repw }	HTTP
 //	mChangePwAns	0x8012	{requestid, sessionid, managerid, status, comment}	HTTP
-	@RequestMapping("/changepw")
+	@RequestMapping(value = "/changepw", method = RequestMethod.POST)
 	@ResponseBody
 	public MChangePwAns changePasswords(MChangePw cgpw, HttpServletRequest req)	{
-		// check if input legal construct answer object
-		MChangePwAns ans = new MChangePwAns();
+		// check if input legal
+		ComStatus.ChangePwStatus st = cgpw.reviewdata();
+		
+		// construct answer object
+		MChangePwAns ans = new MChangePwAns(cgpw.getRequestid());
+		ans.setManagerid(cgpw.getManagerid());
+		
+		if(st!=ComStatus.ChangePwStatus.SUCCESS) 
+		{
+			ans.setStatus(st);
+			return ans;
+		}
+		
+		// check if old password is valid
+		
+		// if it is valid change it to be new password
+		
 		
 		return ans;
 	}
 	
-	/*
-	// investigate this first
-	@Autowired
-    private ManagerDao managerDao;
-	
-	@RequestMapping("/getManager")
-	@ResponseBody
-	public Manager getManger() {
-		return managerDao.getManager();
-	}
-	*/
 }
 
   

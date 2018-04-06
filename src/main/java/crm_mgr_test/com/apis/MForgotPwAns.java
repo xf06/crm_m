@@ -48,7 +48,7 @@ public class MForgotPwAns {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
+	
 	public ForgotPwStatus getStatus() {
 		return status;
 	}
@@ -64,5 +64,7 @@ public class MForgotPwAns {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
+
+
 
 }

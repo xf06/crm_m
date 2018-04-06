@@ -16,9 +16,19 @@
 		#{password}
 	</select>
 	<select id="getMidFromMidPW" resultType="Integer">
-		SELECT managerid FROM 
+		SELECT managerid FROM
 		crm.manager a where a.managerid= #{managerid} and a.password=
 		#{password}
 	</select>
-	<!-- <insert id=""></insert> <update id=""></update> <delete id=""></delete> - -->
+	<select id="getManagerFromEmail" resultType="crm_mgr_test.domain.Manager">
+		SELECT * FROM crm.manager a 
+		where a.email= #{email}
+	</select>
+	<update id="updatePassword">
+		UPDATE crm.manager a SET a.password = #{password}
+		where a.managerid=
+		#{managerid}
+	</update>
+	<!-- <insert id=""></insert> <update id=""></update> <delete id=""></delete> 
+		- -->
 </mapper>

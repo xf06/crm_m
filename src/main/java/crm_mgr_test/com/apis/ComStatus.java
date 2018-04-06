@@ -9,7 +9,6 @@ public class ComStatus {
 	public static Boolean useridFormatCheck(int userid) {return true;}
 	public static Boolean emailFormatCheck(String email) {return true;}
 	public static Boolean passwdFormatCheck(String passwd) {return true;}
-
 	
 	// 0x8002 MLoginAns
 	public static enum LoginStatus {
@@ -34,6 +33,7 @@ public class ComStatus {
 		WRONG_MSGID,
 		REQID_ERROR,
 		VARCODE_LENGTH_ERR,
+		EMAIL_INVALID,
 		EMAIL_FORMAT_ERR,
 		VARCODE_FORMAT_ERR,
 		UNKNOWN
@@ -41,19 +41,33 @@ public class ComStatus {
 
 	// 0x800A mResetPwAns
 	public static enum ResetPwStatus {
-		SUCCESS, UNKNOWN
+		SUCCESS, 
+		WRONG_MSGID,
+		REQID_ERROR,
+		ILLEGAL_USER,
+		PASSWD_LENGTH_ERR,
+		REPASSWD_LENGTH_ERR,
+		TOKEN_ERROR,
+		PASSWD_REPASSWD_UNMATCH,
+		USERID_FORMAT_ERR,
+		PASSWD_FORMAT_ERR,
+		REPASSWD_FORMAT_ERR,
+		UPDATEPW_FAILED,
+		UNKNOWN
 	}
 
 	// 0x8012 mChangePwAns
 	public static enum ChangePwStatus {
-		SUCCESS, UNKNOWN
+		SUCCESS, 
+		WRONG_MSGID,
+		REQID_ERROR,
+		ILLEGAL_USER,
+		PASSWD_LENGTH_ERR,
+		USERID_FORMAT_ERR,
+		PASSWD_FORMAT_ERR,
+		UNKNOWN
 	}
 	
-	/*
-	//0x80FF
-	public static enum ChangePwStatus {
-		SUCCESS, UNKNOWN
-	}
-	*/
+
 	
 }
