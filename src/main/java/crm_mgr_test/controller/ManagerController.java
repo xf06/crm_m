@@ -175,16 +175,24 @@ public class ManagerController {
 		MChangePwAns ans = new MChangePwAns(cgpw.getRequestid());
 		ans.setManagerid(cgpw.getManagerid());
 		
-		if(st!=ComStatus.ChangePwStatus.SUCCESS) 
-		{
+		if(st!=ComStatus.ChangePwStatus.SUCCESS) {
 			ans.setStatus(st);
 			return ans;
 		}
-		
+						
 		// check if old password is valid
+		if(managerDao.getMidFromMidPW(cgpw.getManagerid(), cgpw.getOldpw())==null) {
+			ans.setStatus(ComStatus.ChangePwStatus.OLDPW_INVALID);
+			return ans;
+		}
 		
 		// if it is valid change it to be new password
+		if(managerDao.updatePassword(cgpw.getManagerid(), cgpw.getNewpw())==0){
+			ans.setStatus(ComStatus.ChangePwStatus.PWUPDATE_FAILED);
+			return ans;
+		}
 		
+		ans.setStatus(ComStatus.ChangePwStatus.SUCCESS);
 		
 		return ans;
 	}

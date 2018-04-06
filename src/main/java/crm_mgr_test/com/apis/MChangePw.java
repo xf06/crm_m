@@ -53,6 +53,10 @@ public class MChangePw {
 		if (!ComStatus.passwdFormatCheck(this.repw))
 			return ChangePwStatus.PASSWD_FORMAT_ERR;
 		
+		// logic checking
+		if(!this.repw.equals(this.newpw))
+			return ChangePwStatus.NEWPW_NOT_MATCH;
+		
 		return ChangePwStatus.SUCCESS;
 	}
 
