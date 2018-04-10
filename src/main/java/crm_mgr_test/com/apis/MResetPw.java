@@ -28,7 +28,7 @@ public class MResetPw {
 	public ResetPwStatus reviewdata() {
 		
 		// general checking
-		if(!this.messageid.equals("8001"))
+		if(!this.messageid.equals("8009"))
 			return ResetPwStatus.WRONG_MSGID;
 		if(this.requestid == null)
 			return ResetPwStatus.REQID_ERROR;

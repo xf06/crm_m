@@ -8,7 +8,7 @@ import crm_mgr_test.domain.Manager;
 @Component
 public interface ManagerDao {
 
-	public Manager getManager();
+	//public Manager getManager();
 	
 	//public String getPasswords(@Param(value="loginname") String loginname);
 	

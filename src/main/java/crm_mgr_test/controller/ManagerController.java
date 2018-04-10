@@ -21,21 +21,19 @@ import crm_mgr_test.com.apis.MResetPw;
 import crm_mgr_test.com.apis.MResetPwAns;
 import crm_mgr_test.dao.ManagerDao;
 import crm_mgr_test.domain.Manager;
+import crm_mgr_test.domain.MgrToken;
+import crm_mgr_test.repository.RedisRepository;
 
 
 @RestController
 public class ManagerController {
 
-	// investigate this first
+	@Autowired
+    private RedisRepository redisRepository;
+
 	@Autowired
     private ManagerDao managerDao;
-	
-	@RequestMapping("/getManager")
-	@ResponseBody
-	public Manager getManger() {
-		return managerDao.getManager();
-	}
-	
+		
 	// POST method 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	@ResponseBody
@@ -126,13 +124,15 @@ public class ManagerController {
 		}
 			
 		// 1 step: provide a token with email in redis (managerid + token(UUID))
-		UUID token = UUID.randomUUID();
-		int managerid = mgr.getManagerid();
+		MgrToken mt = new MgrToken(mgr.getManagerid(), UUID.randomUUID());
+		this.redisRepository.add(mt);
 		
-		// 2 step: trigger an email sent to target email include (managerid + token)
+		// 2 step: trigger an email sent to target email include (managerid + token)		
+		
 		
 		// 3 step: if everything ok, return success
-		
+		ans.setStatus(ComStatus.ForgotPwStatus.SUCCESS);
+	
 		return ans;
 	}
 	
@@ -153,6 +153,15 @@ public class ManagerController {
 		}
 		
 		// check if token match redis's token
+		if(rspw.getToken()==null) {
+			ans.setStatus(ComStatus.ResetPwStatus.TOKEN_ERROR);
+			return ans;
+		}				
+		
+		if(!rspw.getToken().equals(this.redisRepository.findToken(rspw.getManagerid()))){
+			ans.setStatus(ComStatus.ResetPwStatus.TOKEN_ERROR);
+			return ans;
+		}
 		
 		// reset user's passwords database value
 		if(managerDao.updatePassword(rspw.getManagerid(), rspw.getPassword())==0) {
@@ -163,8 +172,6 @@ public class ManagerController {
 		return ans;
 	}
 	
-//	mChangePw	0x8011	{requestid, sessionid, managerid, oldpw, newpw, repw }	HTTP
-//	mChangePwAns	0x8012	{requestid, sessionid, managerid, status, comment}	HTTP
 	@RequestMapping(value = "/changepw", method = RequestMethod.POST)
 	@ResponseBody
 	public MChangePwAns changePasswords(MChangePw cgpw, HttpServletRequest req)	{
@@ -200,3 +207,30 @@ public class ManagerController {
 }
 
   
+/*
+ * 	// testing methods
+	//----------------------------------
+	private static int counter = 0;
+	
+	@RequestMapping("/getRedis")
+	@ResponseBody
+	public MgrToken getRedis() {
+		//insert something  
+		MgrToken token = new MgrToken(this.counter++, UUID.randomUUID());
+		//token.setManagerid(this.counter++);
+		//token.setToken(UUID.randomUUID());
+		this.redisRepository.add(token);
+				
+		// get token from the map
+		MgrToken retToken = new MgrToken(this.counter-1,this.redisRepository.findToken(this.counter -1));
+		
+		// and return token
+		
+		//this.redisRepository.delete(mangerid);
+		return retToken;
+		//return this.redisRepository.findAllTokens();
+	}
+	
+	//----------------------------------
+ * 
+ * */
