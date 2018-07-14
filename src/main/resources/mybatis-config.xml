@@ -24,5 +24,6 @@
     </typeAliases>
     <mappers>
         <mapper resource="mapper/ManagerMapper.xml"/>
+        <mapper resource="mapper/PermissionMapper.xml"/>
     </mappers>
 </configuration>

@@ -59,11 +59,19 @@ public class ManagerController {
 		// code verification check
 		
 		// database email and passwd check
+		
+		Manager manager = new Manager();
+		
 		if((mlg.getEmail()!=null)&&(!mlg.getEmail().equals(""))) {
 			
-			if(managerDao.getEmailFromEmailPW(mlg.getEmail(), mlg.getPassword())!=null)
+			manager = managerDao.getEmailFromEmailPW(mlg.getEmail(), mlg.getPassword());
+			
+			if(manager != null){
 				ans.setStatus(ComStatus.LoginStatus.SUCCESS);
-			else
+				ans.setManagerid(manager.getManagerid());
+				ans.setEmail(manager.getEmail());
+				ans.setPermissionCode(manager.getPermissionCode());
+			} else
 				ans.setStatus(ComStatus.LoginStatus.PASSWD_USER_NO_MATCH);
 			
 			return ans;
@@ -71,9 +79,15 @@ public class ManagerController {
 		
 		// database loginname and passwd check
 		if((mlg.getLoginname()!=null)&&(!mlg.getLoginname().equals(""))) {
-			if(managerDao.getUserFromUserPW(mlg.getLoginname(),mlg.getPassword())!=null)
+			
+			manager = managerDao.getUserFromUserPW(mlg.getLoginname(),mlg.getPassword());
+			
+			if(manager != null){
 				ans.setStatus(ComStatus.LoginStatus.SUCCESS);
-			else 
+				ans.setManagerid(manager.getManagerid());
+				ans.setLoginname(manager.getLoginname());
+				ans.setPermissionCode(manager.getPermissionCode());
+			}else 
 				ans.setStatus(ComStatus.LoginStatus.PASSWD_USER_NO_MATCH);
 			
 			return ans;
@@ -81,8 +95,14 @@ public class ManagerController {
 		
 		// database managerid and passwd check
 		if(mlg.getManagerid()!=0) {
-			if(managerDao.getMidFromMidPW(mlg.getManagerid(), mlg.getPassword())!=null)
+			
+			manager = managerDao.getMidFromMidPW(mlg.getManagerid(), mlg.getPassword());
+			
+			if(manager != null){
 				ans.setStatus(ComStatus.LoginStatus.SUCCESS);
+				ans.setManagerid(manager.getManagerid());
+				ans.setPermissionCode(manager.getPermissionCode());
+			}
 			else 
 				ans.setStatus(ComStatus.LoginStatus.PASSWD_USER_NO_MATCH);
 			

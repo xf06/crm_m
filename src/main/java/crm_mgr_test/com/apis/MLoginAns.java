@@ -14,6 +14,8 @@ public class MLoginAns {
 	private LoginStatus status;
 	private String comment;
 	
+	private Long permissionCode;
+	
 	public MLoginAns() {
 		this.messageid = "8002";
 	}
@@ -77,6 +79,14 @@ public class MLoginAns {
 
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+
+	public Long getPermissionCode() {
+		return permissionCode;
+	}
+
+	public void setPermissionCode(Long permissionCode) {
+		this.permissionCode = permissionCode;
 	}
 
 	

@@ -8,6 +8,8 @@ public class Manager {
 	private String email;
 	private String privillege;
 	
+	private Long permissionCode;
+	
 	public int getManagerid() {
 		return managerid;
 	}
@@ -37,6 +39,12 @@ public class Manager {
 	}
 	public void setPrivillege(String privillege) {
 		this.privillege = privillege;
+	}
+	public Long getPermissionCode() {
+		return permissionCode;
+	}
+	public void setPermissionCode(Long permissionCode) {
+		this.permissionCode = permissionCode;
 	}
 	
 	
