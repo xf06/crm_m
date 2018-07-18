@@ -15,6 +15,8 @@ public class Permission {
 	private int createOrder;
 	private int deleteOrder;
 	private int scanOpratorLog;
+	//除了admin之外，所有人都是0。数据库表字段某认是0。使用mybatis操作数据库记录时，不能用这个字段。但是计算权限的时候必须使用这个字段
+	private int manageUser;
 	private String loginname;
 
 	public int getId() {
@@ -127,6 +129,14 @@ public class Permission {
 
 	public void setLoginname(String loginname) {
 		this.loginname = loginname;
+	}
+
+	public int getManageUser() {
+		return manageUser;
+	}
+
+	public void setManageUser(int manageUser) {
+		this.manageUser = manageUser;
 	}
 
 }

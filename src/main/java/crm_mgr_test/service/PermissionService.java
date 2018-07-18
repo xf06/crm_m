@@ -58,7 +58,7 @@ public class PermissionService {
 	}
 	
 	public AddPermissionEnum addPermission(MAddPermission mAddPermission){
-		
+		//TODO userid 校验
 		Long score = 0L;
 		try {
 			score = calculatePermission(mAddPermission);

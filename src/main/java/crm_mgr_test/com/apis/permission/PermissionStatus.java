@@ -18,6 +18,7 @@ public class PermissionStatus {
 		weightMap.put("createOrder",128L);
 		weightMap.put("deleteOrder",256L);
 		weightMap.put("scanOpratorLog",512L);
+		weightMap.put("manageUser",1024L);
 	}
 	
 	public static Long getApiWeight(String key){

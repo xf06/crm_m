@@ -34,7 +34,7 @@ public class PermissionController {
 	
 	@RequestMapping(value = "/mGetAllUsers", method = RequestMethod.POST)
 	@ResponseBody
-	public MGetAllUsersAns GetAllUsers(MGetAllUsers mGetAllUsers){
+	public MGetAllUsersAns getAllUsers(MGetAllUsers mGetAllUsers){
 		
 		PermissionStatus.GetAllUserNameEnum getAllUserNameEnum = mGetAllUsers.reviewData();
 		MGetAllUsersAns mGetAllUsersAns = new MGetAllUsersAns();

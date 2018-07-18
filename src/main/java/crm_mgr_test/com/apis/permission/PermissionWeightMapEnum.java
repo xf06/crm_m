@@ -16,7 +16,9 @@ public enum PermissionWeightMapEnum {
 	UPDATE_CUSTOMER_ORDERS("mUpdateCustomerOrders",64L),
 	CREATE_ORDER("mCreateOrder",128L),
 	DELETE_ORDER("mDeleteOrder",256L),
-	SCAN_OPRATOR_LOG("mScanOpratorLog",512L);
+	SCAN_OPRATOR_LOG("mScanOpratorLog",512L),
+	//除了admin之外，所有人都是0。数据库表字段某认是0。使用mybatis操作数据库记录时，不能用这个字段。但是计算权限的时候必须使用这个字段
+	MANAGE_USER("manageUser",1024L);
 	
 	PermissionWeightMapEnum (String apiName ,Long weight){
 		this.apiName = apiName;

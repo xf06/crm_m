@@ -19,6 +19,7 @@ public class MUpdatePermission {
 	private int createOrder;
 	private int deleteOrder;
 	private int scanOpratorLog;
+	private int manageUser = 0;
 	
 	
 	public UpdatePermissionEnum reviewData(){
@@ -103,6 +104,14 @@ public class MUpdatePermission {
 	}
 	public void setScanOpratorLog(int scanOpratorLog) {
 		this.scanOpratorLog = scanOpratorLog;
+	}
+
+	public int getManageUser() {
+		return manageUser;
+	}
+
+	public void setManageUser(int manageUser) {
+		this.manageUser = manageUser;
 	}
 	
 	
